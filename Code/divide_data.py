@@ -56,6 +56,19 @@ def Processed(source_dir, data_dir):
     file_val.close()
     file_test.close()
 
+path = os.getcwd()
+source_dir = path + "/Name Of Folder Data"
+
+dataset_dir = path + "/dataset"
+if(os.path.exists(dataset_dir) == False):
+    os.mkdir(dataset_dir)
+
+folder_data_in_dataset = dataset_dir + "/data1"
+if(os.path.exists(folder_data_in_dataset) == False):
+    os.mkdir(folder_data_in_dataset)
+
+Processed(source_dir, folder_data_in_dataset)
+
 source_dir = os.getcwd() + "/101_ObjectCategories"
 data_dir = os.getcwd() + "/dataset/data1"
 
