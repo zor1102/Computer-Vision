@@ -20,15 +20,20 @@ def ProcessedList(lstA, lstB):
             dicA[item] = 1
     return ConvertDicToList(dicA)
     
-def WriteData(file_name, lst_images, dir_target):
-    file_data = open(dir_target, "w")
+def WriteData(file_name, lst_images, file_data):
     for image_name in lst_images:
         image_dir = file_name + "/" + image_name
         file_data.write(image_dir + "\n")
-    file_data.close()
 
 def Processed(source_dir, data_dir):
     list_files = os.listdir(source_dir)
+    data_train_dir = data_dir + "/train.txt"
+    data_val_dir = data_dir + "/val.txt"
+    data_test_dir = data_dir + "/test.txt"
+
+    file_train = open(data_train_dir, "w")
+    file_val = open(data_val_dir, "w")
+    file_test = open(data_test_dir, "w")
     for file_name in list_files:
         file_dir = source_dir + "/" + file_name
         list_images = os.listdir(file_dir)
@@ -43,20 +48,15 @@ def Processed(source_dir, data_dir):
         list_images_val = random.sample(list_images_val_and_test, number_of_images_val)
         list_images_test = ProcessedList(list_images_val_and_test, list_images_val)
 
-        file_class_dir = data_dir + "/" + file_name
-        if(os.path.exists(file_class_dir) == False):
-            os.mkdir(file_class_dir)
+        WriteData(file_name, list_images_train, file_train)
+        WriteData(file_name, list_images_val, file_val)
+        WriteData(file_name, list_images_test, file_test)
 
-        data_train_dir = file_class_dir + "/train.txt"
-        data_val_dir = file_class_dir + "/val.txt"
-        data_test_dir = file_class_dir + "/test.txt"
+    file_train.close()
+    file_val.close()
+    file_test.close()
 
-        WriteData(file_name, list_images_train, data_train_dir)
-        WriteData(file_name, list_images_val, data_val_dir)
-        WriteData(file_name, list_images_test, data_test_dir)
-
-name_of_folder = "Tên thư mục chứa data"
-source_dir = os.getcwd() + "/" + name_of_folder
+source_dir = os.getcwd() + "/101_ObjectCategories"
 data_dir = os.getcwd() + "/dataset/data1"
 
 Processed(source_dir, data_dir)
